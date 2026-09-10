@@ -31,6 +31,13 @@ Decision Layer
        v                   v
   Auto-handle          Escalate
 
+## Dataset and Brand Selection
+
+The project uses the **Customer Support on Twitter** dataset from Kaggle.
+
+For this assignment, **AmazonHelp** was selected as the target brand because it has a large number of customer-support interactions in the dataset, providing enough historical examples for retrieval and evaluation.
+
+The raw `twcs.csv` dataset is not included in the repository because of its large size.
 
   ## Intent Taxonomy
 
@@ -57,6 +64,8 @@ A fixed **200-example golden evaluation set** was created from the sampled Amazo
 The examples were manually labelled using the taxonomy above.
 
 A fixed random seed was used when creating the evaluation set so that the experiment is reproducible.
+
+The 200 examples were sampled from AmazonHelp customer messages using a fixed random seed (123). The final labelled set was validated for missing or invalid intent labels before evaluation and is stored in `data/golden_eval.csv`.
 
 ### Evaluation Metrics
 
@@ -233,7 +242,7 @@ Example:
 
 ## What Is Misleading About My Headline Number?
 
-The 44.00% accuracy of the keyword baseline is useful as a reproducible benchmark, but it should not be interpreted as the quality of the complete support agent.
+The 46.50% Gemini accuracy is useful as a reproducible benchmark, but it should not be interpreted as the quality of the complete support agent.
 
 There are several reasons:
 
@@ -252,11 +261,13 @@ There are several reasons:
 5. **The decision layer changes the operational risk.**  
    The system can escalate uncertain cases instead of automatically responding. Therefore, classification accuracy alone does not represent the final business behaviour of the agent.
 
-6. **The Gemini evaluation could not be measured reliably in this run.**  
-   The API quota was exhausted during evaluation, causing fallback predictions. Those results are therefore not presented as genuine Gemini performance.
+6. **Gemini's improvement is modest.**  
+   Gemini improves over the keyword baseline from 44.00% to 46.50% accuracy and from 36.86% to 40.34% Macro F1. This shows measurable improvement, but there is still substantial room for improvement.
 
-For these reasons, the headline classification number should be interpreted as a **baseline benchmark**, not as an end-to-end measure of customer-support agent quality.
+7. **Reply quality has not been fully measured.**  
+   The generated replies were produced successfully, but the LLM judge could not complete because of API quota limits. Therefore, the classification score should not be presented as an end-to-end customer-support quality score.
 
+For these reasons, the headline classification number should be interpreted as a benchmark on a fixed 200-example evaluation set, not as an end-to-end measure of customer-support agent quality.
 
 ## One-Week Next Steps
 
@@ -288,6 +299,11 @@ If I had one additional week, I would focus on the following improvements:
    - Add logging, monitoring, rate-limit handling, retries, and structured error handling.
    - Add tests for classification, retrieval, reply generation, and escalation decisions.
 
+## Decision Log
+
+The non-obvious implementation and evaluation decisions are documented in [`docs/decision_log.md`](docs/decision_log.md).
+
+The decision log covers 15 decisions including brand selection, intent taxonomy, evaluation sampling, duplicate historical pairs, retrieval method, escalation policy, sensitive issue handling, and evaluation limitations.
 
    ## Reproducing the Results
 
