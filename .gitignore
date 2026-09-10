@@ -1,0 +1,7 @@
+venv/
+.env
+__pycache__/
+
+data/amazon_conversations.csv
+data/amazon_help.csv
+data/gemini_predictions.csv
