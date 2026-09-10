@@ -305,10 +305,91 @@ The non-obvious implementation and evaluation decisions are documented in [`docs
 
 The decision log covers 15 decisions including brand selection, intent taxonomy, evaluation sampling, duplicate historical pairs, retrieval method, escalation policy, sensitive issue handling, and evaluation limitations.
 
-   ## Reproducing the Results
+  ## Reproducing the Results
 
 ### 1. Create the environment
 
-```bash
-python -m venv venv
-venv\Scripts\activate
+`python -m venv venv`
+
+`venv\Scripts\activate`
+
+### 2. Install dependencies
+
+`pip install pandas scikit-learn python-dotenv google-genai`
+
+### 3. Configure Gemini
+
+Create a `.env` file in the project root:
+
+`GEMINI_API_KEY=your_api_key_here`
+
+Do not commit the `.env` file.
+
+### 4. Run the baseline evaluation
+
+`python src/evaluate_trivial.py`
+
+`python src/evaluate_system.py`
+
+Expected results:
+
+| System | Accuracy | Macro F1 |
+|---|---:|---:|
+| Majority-class baseline | 26.50% | 3.81% |
+| Keyword baseline | 44.00% | 36.86% |
+
+### 5. Run the Gemini classifier evaluation
+
+`python src/evaluate_gemini_full.py`
+
+This evaluates the Gemini classifier on the 200-example golden evaluation set and saves predictions to:
+
+`data/gemini_predictions.csv`
+
+Reported result:
+
+- Accuracy: **46.50%**
+- Macro F1: **40.34%**
+
+### 6. Evaluate historical retrieval
+
+`python src/evaluate_retrieval.py`
+
+This evaluates the TF-IDF historical retrieval component and creates:
+
+`data/golden_with_retrieval.csv`
+
+### 7. Evaluate the decision layer
+
+`python src/evaluate_decisions.py`
+
+This creates:
+
+`data/decision_results.csv`
+
+The current policy produced:
+
+- Auto-handle: **154 (77.0%)**
+- Escalate: **46 (23.0%)**
+
+### 8. Run the end-to-end agent
+
+`python src/test_agent.py`
+
+The agent performs intent classification, historical retrieval, reply generation, and the auto-handle/escalate decision.
+
+### 9. Run reply evaluation
+
+`python -m src.evaluate_replies`
+
+This generates replies for the 10-example reply evaluation set and saves them to:
+
+`data/reply_eval_results.csv`
+
+### 10. Run the LLM judge
+
+`python -m src.evaluate_judge`
+
+The LLM judge requires sufficient Gemini API quota.
+
+The LLM-judge scores are not included in the reported results because the available API quota was exhausted during the judge evaluation.
