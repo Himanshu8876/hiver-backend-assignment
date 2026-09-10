@@ -149,21 +149,40 @@ These numbers describe the current heuristic routing policy; they should not be 
 
 A 10-example reply evaluation set was generated from the golden set.
 
-The planned LLM-as-judge rubric evaluates:
+The LLM-as-judge rubric evaluates:
 
 - Groundedness
 - Helpfulness
 - Professionalism
 - Overall quality
 
-The generated replies were successfully produced and saved for evaluation. However, the Gemini API quota was exhausted when the LLM judge was run, so the judge requests returned quota errors.
+The Gemini judge successfully evaluated 6 of the 10 examples. The remaining 4 requests returned temporary API availability errors.
 
-Therefore:
+For the 6 successfully judged examples, the average scores were:
 
-- LLM-judge quality score: **Not reported**
-- Judge-human agreement: **Not reported**
+| Metric | Average Score |
+|---|---:|
+| Groundedness | 5.00 / 5 |
+| Helpfulness | 3.83 / 5 |
+| Professionalism | 4.67 / 5 |
+| Overall | 4.33 / 5 |
 
-No LLM-judge scores are fabricated or inferred from the generated replies.
+### LLM Judge vs Human Agreement
+
+The same 6 successfully judged replies were also reviewed by a human using the same 1–5 rubric.
+
+For the **Overall** score:
+
+| Agreement Metric | Result |
+|---|---:|
+| Evaluated replies | 6 |
+| Exact agreement | 0 / 6 (0.0%) |
+| Agreement within ±1 point | 2 / 6 (33.3%) |
+| Mean Absolute Error | 1.87 |
+
+The agreement sample is small and should not be treated as statistically robust judge calibration. It is included to demonstrate the evaluation methodology and expose differences between automated and human assessment.
+
+The LLM judge was also affected by Gemini API availability during evaluation, so the judge results are treated as a small calibration experiment rather than a definitive measure of reply quality.
 
 ## Top 5 Failure Modes
 
