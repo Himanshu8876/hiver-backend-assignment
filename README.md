@@ -92,19 +92,24 @@ For reply quality, the planned evaluation rubric contains:
 
 ### Intent Classification
 
-The following results were measured on the 200-example golden evaluation set.
+The following results were measured on the fixed 200-example golden evaluation set.
 
 | System | Accuracy | Macro F1 |
 |---|---:|---:|
 | Majority-class baseline | 26.50% | 3.81% |
 | Keyword baseline | 44.00% | 36.86% |
-| Gemini classifier | Not reported | Not reported |
+| Gemini classifier | 46.50% | 40.34% |
 
 The majority-class baseline always predicts `other_non_actionable`, which is the most common intent in the evaluation set.
 
 The keyword baseline uses deterministic keyword and phrase matching.
 
-The Gemini classifier was integrated into the system and tested successfully for individual and small-batch requests. However, the 200-example evaluation became dominated by fallback predictions after the Gemini API free-tier quota was exhausted. Therefore, that run is not treated as a valid measurement of Gemini classifier performance.
+The Gemini classifier was evaluated on all 200 examples with valid predictions for every example. It achieved 46.50% accuracy and 40.34% Macro F1.
+
+Compared with the keyword baseline, Gemini improved:
+
+- Accuracy by 2.50 percentage points
+- Macro F1 by 3.48 percentage points
 
 ### Historical Retrieval
 
@@ -142,9 +147,14 @@ The planned LLM-as-judge rubric evaluates:
 - Professionalism
 - Overall quality
 
-The generated replies were successfully produced and saved for evaluation. However, all 10 LLM-judge requests failed because the Gemini free-tier request quota was exhausted.
+The generated replies were successfully produced and saved for evaluation. However, the Gemini API quota was exhausted when the LLM judge was run, so the judge requests returned quota errors.
 
-Therefore, **no LLM-judge quality score or judge-human agreement number is reported**.
+Therefore:
+
+- LLM-judge quality score: **Not reported**
+- Judge-human agreement: **Not reported**
+
+No LLM-judge scores are fabricated or inferred from the generated replies.
 
 ## Top 5 Failure Modes
 
