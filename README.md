@@ -155,9 +155,9 @@ The same 6 replies were scored by a human on the identical rubric.
 | Metric | Result |
 |---|---:|
 | Evaluated replies | 6 |
-| Exact agreement | 0 / 6 (0.0%) |
-| Agreement within ±1 | 2 / 6 (33.3%) |
-| Mean Absolute Error | 1.87 |
+Exact agreement: 0/6 (0%)
+Within ±1: 4/6 (66.7%)
+MAE: 1.20
 
 **Read this as a calibration finding, not a quality score.** n=6 is too small to trust as a judge
 benchmark; the honest conclusion is "I don't yet know if this judge is reliable," and the fix
