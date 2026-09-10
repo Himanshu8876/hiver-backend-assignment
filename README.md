@@ -185,7 +185,7 @@ Identified from the keyword-baseline confusion matrix on the 200-example golden 
    (9 cases). Packaging/counterfeit/review complaints don't use the words "seller" or "product."
    *Fix: semantic features + representative examples for packaging, counterfeit, seller behavior.*
 
-(Full examples with quoted messages: `docs/failure_analysis.md` — kept out of this README for length.)
+The full failure examples are available in `data/top_failure_examples.csv`.
 
 ---
 
